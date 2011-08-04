@@ -1,0 +1,25 @@
+An IRC robot written in Groovy, which can reload "plugins" on the fly, simply because it monitors the "plugins" directory.
+
+TODO:
+* plugin order (alphabetical?)
+* load subfolders of plugins
+* load with pattern, so classes and other utils can stay there
+* daemonize
+* build, single jar
+* instructions, setup, install
+
+* plugin name ?
+* plugin dependencies ? (could be useful, or even needed, for proper reload/restart)
+
+* save plugin states ?
+
+PLUGINS TO WRITE:
+* config, connect, join channels
+* take-over
+* log
+* meetbot (with voice)
+* jira info
+* "shut up" (bot will be silent until his name is said)
+* wait for user (bot will notice you when user join and/or send a message to the user)
+
+
