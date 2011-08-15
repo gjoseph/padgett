@@ -9,13 +9,26 @@ In medieval times, pages were male servants to lords, but the modern use of the 
 
 Also, whatever. "Padgett" sounds like "Gadget", so why not.
 
+Done, to document:
+* plugins are loaded in subfolders,
+* name pattern for plugins: *.botplugin - so (hopefully) classes and other utils can stay there - TODO: verify.
+
 TODO:
-* plugin order (alphabetical?)
-* load subfolders of plugins
-* load with pattern, so classes and other utils can stay there
+* verify or enforce plugin order (alphabetical?)
+* verify plugins can utilize other classes
+  ** Can plugins use Grapes ?
 * daemonize
 * build, single jar
 * instructions, setup, install
+
+* configuration:
+  Should there be one "config" object ?
+  Should each plugin look at the same set of arbitrary properties ?
+  Should each plugin simply have its own configuration ? (should it be embedded in the plugin code, make it non distributable?)
+  Should each plugin register its config items in the shared config object ?
+
+  Should plugins "talk" to each other ?
+  (for example they could share one Jira::proxy instance)
 
 * plugin name ?
 * plugin dependencies ? (could be useful, or even needed, for proper reload/restart)
@@ -24,11 +37,8 @@ TODO:
 
 PLUGINS TO WRITE:
 * config, connect, join channels
-* take-over
 * log
-* meetbot (with voice)
+* meetbot (with +voice)
 * jira info
 * "shut up" (bot will be silent until his name is said)
 * wait for user (bot will notice you when user join and/or send a message to the user)
-
-
