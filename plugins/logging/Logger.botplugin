@@ -1,0 +1,20 @@
+import logging.LoggerHelper
+
+LoggerHelper logger
+plugin = [
+        start: {
+            logger = new LoggerHelper()
+            // TODO roll logger ?
+        },
+
+        stop: {
+            logger?.stop()
+        },
+
+
+        onMessage: { msg ->
+            // TODO log per channel
+            logger.log "${msg.channel}: <${msg.user.nickname}> ${msg.text}"
+        },
+
+]
