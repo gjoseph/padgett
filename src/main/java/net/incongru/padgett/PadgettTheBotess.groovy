@@ -9,9 +9,13 @@ import org.jibble.pircbot.PircBot
 //@Grab("pircbot:pircbot:1.5.0")
 public class PadgettTheBotess extends PircBot {
     final plugins = [:] as Map<File, Plugin>
+    // TODO -- channels currently holds too many values, see note below.
     final channels = [] as List<String>
 
     // ----- Additional methods
+    // TODO expose a "me" variable or isMe(User) method ?
+
+
     void broadcastMessage(String message) {
         channels.each { channel ->
             sendMessage channel, message
@@ -23,34 +27,19 @@ public class PadgettTheBotess extends PircBot {
             sendNotice channel, notice
         }
     }
-/** pbly not needed
-    void toPlugins(String command) {
-//        toPlugins { cmd(it,command).call() }
-        plugins.values().each { plugin ->
-            cmd(plugin, command)?.call()
-        }
-    }
- */
 
+    // ------- Plugins delegation
     void toPlugins(String command, final Object... args) {
-//        toPlugins { cmd(it,command).call(args) }
         plugins.values().each { plugin ->
             def closure = cmd(plugin, command)
             if (closure) {
                 // works :
-                closure.metaClass.invokeMethod(closure,"doCall",args)
+                closure.metaClass.invokeMethod(closure, "doCall", args)
                 // does not work : (while it works for single argument)
                 // closure.call(args)
             }
         }
     }
-
-//    void toPlugins(String command, final Object arg) {
-//        toPlugins { cmd(it,command).call(arg) }
-//        plugins.values().each { plugin ->
-//            cmd(plugin, command)?.call(arg)
-//        }
-//    }
 
     void toPlugins(Closure c) {
         plugins.values().each { c.call(it) }
@@ -80,9 +69,6 @@ public class PadgettTheBotess extends PircBot {
                 text: message,
                 user: [nickname: sender, login: login, hostname: hostname]
         ] as MessageDetails
-//        plugins.values().each { plugin ->
-        //            delegateTo(plugin, 'onMessage', msg)
-        //        }
         toPlugins('onMessage', msg)
     }
 
