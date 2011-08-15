@@ -1,11 +1,11 @@
-package net.incongru.gregor
-
-import org.codehaus.groovy.control.messages.Message
+package net.incongru.padgett
 
 /**
  *
  */
 public interface Plugin {
+    String name
+    
     void start(/*GregorTheBot bot*/)
 
     void stop(/*GregorTheBot bot*/)

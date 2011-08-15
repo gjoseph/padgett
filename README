@@ -1,4 +1,13 @@
-An IRC robot written in Groovy, which can reload "plugins" on the fly, simply because it monitors the "plugins" directory.
+Padgett is an IRC robot written in Groovy, exposing a simple plugin system.
+Every bit of functionality in Padgett is written as a plugin, and plugins can be deployed or reloaded without restarting the bot.
+
+Padgett - Meaning of the name
+(Middle English) little page; (Middle English) server, helper
+[ 2 syll. pad-get(t), pa-dge-tt ] Padgett is a form of the English Paget. Padgett is a form of the English Paige,
+which is itself from the ordinary English word page ('servant, helper'). This word is in turn derived via Old French and Italian from the Greek 'paidion'.
+In medieval times, pages were male servants to lords, but the modern use of the name is almost exclusively for girls, for reasons that are unclear.
+
+Also, whatever. "Padgett" sounds like "Gadget", so why not.
 
 TODO:
 * plugin order (alphabetical?)

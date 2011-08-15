@@ -1,4 +1,4 @@
-package net.incongru.gregor
+package net.incongru.padgett
 
 /**
  *
@@ -7,5 +7,5 @@ class MessageDetails {
     /** channel is null for private messages */
     String channel
     String text
-    String nickname, login, hostname
+    UserDetails user
 }
