@@ -1,0 +1,5 @@
+plugin = [
+        name : 'The excessively polite Greeter plugin',
+        onJoin: { channel,user -> bot.sendMessage channel, "Welcome, ${user.nickname}."},
+        onPart: { channel,user -> bot.sendMessage user.nickname, "Ciao ${user.nickname}."},
+]
