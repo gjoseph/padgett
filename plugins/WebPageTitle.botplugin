@@ -1,0 +1,27 @@
+// TODO AST transformation to inject a logger in plugins ?
+// org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger("WebPageTitle.botplugin");
+
+plugin = [
+        onMessage: { msg ->
+            urlMatcher = msg.text =~ /https?:\/\/\S+/
+            if (urlMatcher) {
+                title = getTitle(urlMatcher[0])
+                if (title) {
+                    println "Found title: ${title}"
+                    bot.sendMessage msg.channel, "> ${title}"
+                }
+            }
+        }
+]
+
+@Grapes(
+@Grab(group = 'org.jsoup', module = 'jsoup', version = '1.6.1')
+)
+def getTitle(url) {
+    println "Looking up ${url}"
+    try {
+        return org.jsoup.Jsoup.connect(url).get().title()
+    } catch (Throwable t) {
+        println "ERROR: Could not load ${url}: ${t}"
+    }
+}

@@ -1,6 +1,6 @@
 plugin = [
         start: {
-            bot.broadcastMessage "Hello from ${this}"
+            // bot.broadcastMessage "Hello from ${this}"
         },
 
 
@@ -8,12 +8,12 @@ plugin = [
         
         onMessage: { msg ->
             if (msg.text =~ bot.name) {
-                bot.sendNotice msg.channel, "You said: ${msg.text}"
+                // bot.sendNotice msg.channel, "You said: ${msg.text}"
             }
         },
 
         onPrivateMessage: { msg ->
-            bot.broadcastMessage "${msg.user.nickname} is trying to talk to me in a private. Perv !"
+            //bot.broadcastMessage "${msg.user.nickname} is trying to talk to me in a private. Perv !"
             if (msg.text =~ bot.name) {
                 bot.sendNotice msg.channel, "You quietly said: ${msg.text}"
             }

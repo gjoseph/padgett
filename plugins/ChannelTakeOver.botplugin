@@ -1,20 +1,24 @@
+def userLeft(channel, user) {
+    bot.sendMessage channel, "${user.nickname} left us :("
+    def users = bot.getUsers(channel)
+    def userCount = users.length
+    bot.sendMessage channel, "Only ${userCount} of us left, bitches."
+    if (userCount == 1 && users[0].nick == bot.name && !users[0].isOp()) {
+        println "Rejoining ${channel} in the hope of gaining op privileges."
+        bot.partChannel(channel)
+        bot.joinChannel(channel)
+    }
+}
 plugin = [
         start: {
             bot.broadcastMessage "I might take over this channel, if I can."
         },
 
-
         stop: {},
 
         onPart: { channel, user ->
-            bot.sendMessage channel, "${user.nickname} left us :("
-            def users = bot.getUsers(channel)
-            def userCount = users.length
-            bot.sendMessage channel, "Only ${userCount} of us left, bitches."
-            if (userCount == 1 && users[0].nick == bot.name && !users[0].isOp()) {
-                println "Rejoining ${channel} in the hope of gaining op privileges."
-                bot.partChannel(channel)
-                bot.joinChannel(channel)
-            }
-        }
+            userLeft(channel, user)
+        },
+        
+        onQuit: { user -> userLeft(null, user)}
 ]

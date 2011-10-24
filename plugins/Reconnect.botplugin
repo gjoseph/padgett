@@ -1,0 +1,24 @@
+// join on start
+// rejoin when kicked
+// reconnect when disconnected
+
+def channels = ['#magnolia-coffee-break']
+
+plugin = [
+        start: {
+            channels.each { bot.joinChannel it }
+        },
+
+        stop: {},
+
+        onPart: { channel, user ->
+            if (user.nickname == bot.name) {
+                bot.joinChannel(channel)
+                bot.sendMessage channel, "Hey ${channel}, I'm back !"
+            }
+        },
+
+        onQuit: {
+//            user -> userLeft(null, user)
+        }
+]

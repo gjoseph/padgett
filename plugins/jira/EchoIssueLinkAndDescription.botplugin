@@ -1,0 +1,69 @@
+import groovy.net.xmlrpc.XMLRPCServerProxy
+//import groovyx.net.http.RESTClient
+//import static groovyx.net.http.ContentType.URLENC
+
+def jiraUrlPrefix = 'http://jira.magnolia-cms.com'
+def jira = new Jira(jiraUrlPrefix)
+plugin = [
+        onMessage: { msg ->
+            issueKeyMatcher = msg.text =~ /[A-Z]+-[0-9]+/
+            if (issueKeyMatcher) {
+                def (title, url) = jira.getIssue(issueKeyMatcher[0])
+                if (title) {
+                    println "Found issue: ${title}"
+                    bot.sendMessage msg.channel, "> \"${title}\" - ${url}"
+                }
+            }
+        }
+]
+
+/**
+ * The below was copied from systools
+ */
+@Grab(value = 'org.codehaus.groovy:groovy-xmlrpc:0.7', initClass = false)
+@Grab(value = 'jivesoftware:smack:3.0.4', initClass = false)
+class Jira {
+    private final Object defaultService;
+    private final String jiraUrlPrefix;
+    private final String token;
+
+    def Jira(String jiraUrlPrefix) {
+        this.jiraUrlPrefix = jiraUrlPrefix
+        def serverProxy = new XMLRPCServerProxy("${jiraUrlPrefix}/rpc/xmlrpc")
+        defaultService = serverProxy.jira1;
+        token = defaultService.login('gjoseph', 'm4st0d0n')
+    }
+
+    def getIssue(issueKey) {
+        println "Looking up ${issueKey} on ${jiraUrlPrefix}"
+        try {
+            def issue = defaultService.getIssue(token, issueKey)
+            // if we ever need custom fields: issue.getClass().mixin(IssueMixin)
+            return [issue.summary, "${jiraUrlPrefix}/browse/${issueKey}"]
+        } catch (Throwable t) {
+            println "ERROR: Could not load or find ${issueKey}: ${t}"
+        }
+        return []
+    }
+
+    static class IssueMixin {
+        def getCustomFieldValue(fieldId) {
+            def field = get('customFieldValues').find { it.customfieldId == fieldId }
+            return field?.values?.trim()
+        }
+    }
+}
+
+/** with rest api - doesn't really work as-is
+ @Grab ( g r o u p = 'org.codehaus.groovy.modules.http-builder', module = 'http-builder', version = '0.5.1')
+  def getIssue(jiraUrlPrefix,key) {
+  println "Looking up Jira issue ${key}"
+  try {
+  def jira = new RESTClient(jiraUrlPrefix+ '/rest/api/2.0.alpha1')
+  def var = jira.get path: '/issue/' + key
+  println var
+  } catch (Throwable t) {
+  println "ERROR: Could not load or find ${key}: ${t}"
+  }
+  }
+ */
