@@ -1,7 +1,9 @@
 Padgett is an IRC robot written in Groovy, exposing a simple plugin system.
 Every bit of functionality in Padgett is written as a plugin, and plugins can be deployed or reloaded without restarting the bot.
 
-Padgett - Meaning of the name
+Padgett - the name
+==================
+
 (Middle English) little page; (Middle English) server, helper
 [ 2 syll. pad-get(t), pa-dge-tt ] Padgett is a form of the English Paget. Padgett is a form of the English Paige,
 which is itself from the ordinary English word page ('servant, helper'). This word is in turn derived via Old French and Italian from the Greek 'paidion'.
@@ -10,10 +12,12 @@ In medieval times, pages were male servants to lords, but the modern use of the 
 Also, whatever. "Padgett" sounds like "Gadget", so why not.
 
 Done, to document:
+==================
 * plugins are loaded in subfolders,
 * name pattern for plugins: *.botplugin - so (hopefully) classes and other utils can stay there - TODO: verify.
 
 TODO:
+=====
 * verify or enforce plugin order (alphabetical?)
 * verify plugins can utilize other classes
   ** Can plugins use Grapes ?
@@ -37,6 +41,7 @@ TODO:
 * save plugin states ?
 
 PLUGINS TO WRITE:
+-----------------
 * config, connect, join channels
 * log
 * meetbot (with +voice)
@@ -53,6 +58,7 @@ Use Unreal as IrcD:
  * run with ./unreal start
 Use weechat (installed via ports) as client - easy enough to start multiple instances
 
-RUN FROM SOURCE AND CMDLINE:
+Run from source
+===============
 mvn dependency:build-classpath -Dmdep.outputFile=mvncp.out && java -cp `cat mvncp.out`:target/classes/ net.incongru.padgett.Main
 
