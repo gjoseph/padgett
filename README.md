@@ -42,6 +42,7 @@ TODO
 
 Plugins to write
 ----------------
+
 * config, connect, join channels
 * log
 * meetbot (with +voice)
@@ -51,12 +52,15 @@ Plugins to write
 
 Development
 ===========
+
 Use ngircd as server:
+
  * sudo port install ngircd
  * sudo cp /opt/local/etc/ngircd.conf.sample /opt/local/etc/ngircd.conf
  * ngircd -n
 
 Use weechat as client - easy enough to start multiple instances
+
  * sudo port install weechat
  * vi ~/.weechat/
  * weechat-curse
