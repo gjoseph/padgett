@@ -1,0 +1,13 @@
+// TODO - currently only one connection possible.
+// TODO - see reconnect.botplugin for channel connections
+
+plugin = [
+        start: {
+            bot.name = "padgett_bot"
+            // bot.connect "irc.freenode.net"
+            bot.connect "localhost", 6667
+        },
+
+        stop: {},
+
+]

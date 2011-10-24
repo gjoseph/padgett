@@ -20,6 +20,7 @@ TODO:
 * daemonize
 * build, single jar
 * instructions, setup, install
+* don't callback when bot.name=user.nickname?
 
 * configuration:
   Should there be one "config" object ?
@@ -42,3 +43,7 @@ PLUGINS TO WRITE:
 * jira info
 * "shut up" (bot will be silent until his name is said)
 * wait for user (bot will notice you when user join and/or send a message to the user)
+
+RUN FROM SOURCE AND CMDLINE:
+mvn dependency:build-classpath -Dmdep.outputFile=mvncp.out && java -cp `cat mvncp.out`:target/classes/ net.incongru.padgett.Main
+

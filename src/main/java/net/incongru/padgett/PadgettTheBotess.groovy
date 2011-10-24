@@ -106,6 +106,22 @@ public class PadgettTheBotess extends PircBot {
     }
 
     @Override
+    protected void onKick(String channel, String kickerNick, String kickerLogin, String kickerHostname, String recipientNick, String reason) {
+        def kicker = [nickname: kickerNick, login: kickerLogin, hostname: kickerHostname] as UserDetails
+        def kickee = [nickname: recipientNick] as UserDetails
+
+        // TODO also call onPart ?
+        toPlugins('onKick', channel, kicker, kickee, reason)
+    }
+
+    @Override
+    protected void onQuit(String sourceNick, String sourceLogin, String sourceHostname, String reason) {
+        def user = [nickname: sourceNick, login: sourceLogin, hostname: sourceHostname] as UserDetails
+        /// TODO also call onPart for each channel the user was on ?
+        toPlugins('onQuit', user)
+    }
+
+    @Override
     protected void onConnect() {
 
     }

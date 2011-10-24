@@ -2,7 +2,7 @@
 // rejoin when kicked
 // reconnect when disconnected
 
-def channels = ['#magnolia-coffee-break']
+def channels = ['#greg-test']
 
 plugin = [
         start: {
@@ -15,6 +15,13 @@ plugin = [
             if (user.nickname == bot.name) {
                 bot.joinChannel(channel)
                 bot.sendMessage channel, "Hey ${channel}, I'm back !"
+            }
+        },
+
+        onKick: { channel, kicker, kickee, reason ->
+            if (kickee.nickname == bot.name) {
+                bot.joinChannel(channel)
+                bot.sendMessage channel, "Hey ${channel}, I'm back ! ${reason?:'(no reason given)'} is not a reason to hurt me."
             }
         },
 

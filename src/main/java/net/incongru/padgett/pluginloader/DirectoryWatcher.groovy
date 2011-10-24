@@ -6,6 +6,8 @@ import groovy.io.FileType
  * Largely inspired by http://cadrlife.blogspot.com/2010/07/watch-directory-for-changes-in-groovy.html
  */
 class DirectoryWatcher extends TimerTask {
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DirectoryWatcher.class);
+
     final static def sortByTypeThenName = { a, b ->
         a.isDirectory() != b.isDirectory() ? a.isDirectory() <=> b.isDirectory() : String.CASE_INSENSITIVE_ORDER.compare(a.name, b.name)
     }
@@ -57,8 +59,7 @@ class DirectoryWatcher extends TimerTask {
         try {
             callback.onPluginChange(file, change)
         } catch (Throwable t) {
-            t.printStackTrace()
-            println "Oh lord, we were not able to act on a change for ${file}: ${t.message}"
+            log.error("Oh lord, we were not able to act on a change for ${file}: ${t.message}. See exception.", t)
         }
     }
 }

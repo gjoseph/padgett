@@ -5,6 +5,8 @@ import net.incongru.padgett.pluginloader.DirectoryWatcher
 import net.incongru.padgett.pluginloader.FileChange
 
 public class Main {
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Main.class);
+
     final PadgettTheBotess ircbot
 
     public static void main(String[] args) {
@@ -21,12 +23,11 @@ public class Main {
         Timer timer = new Timer()
         timer.schedule(watcher, 5000, 10000)
 
-        // this implicitly keeps the app running - should manage threading ourselves ?
-        ircbot.name = "groovy_bot"
+        // this implicitly keeps the app running - should we manage threading ourselves ?
+//        ircbot.name = "padgett_bot"
         ircbot.setVerbose true // if true, verbose messages output to console.
-        ircbot.connect "localhost", 6667
-        // ircbot.connect "irc.freenode.net"
-        ircbot.joinChannel "#greg-test"
+        //ircbot.connect "localhost", 6667
+        // ircbot.joinChannel "#greg-test"
     }
 
     void onPluginChange(File file, FileChange change) {
@@ -76,7 +77,8 @@ public class Main {
             }
             // return (Plugin) groovyClass.newInstance()
         } catch (Exception e) {
-            ircbot.broadcastNotice("Could not load plugin from ${file}: ${e.message}")
+            // ircbot.broadcastNotice
+            log.error("Could not load plugin from ${file}: ${e.message}")
             return null
         }
     }
