@@ -63,6 +63,10 @@ Use weechat as client - easy enough to start multiple instances
  * cp -R ~/.weechat/ ~/.weechat2/
  * weechat-curses -d ~/.weechat2/
  * # rince and repeat for more clients/configs
+ * http://www.weechat.org/
+ * http://www.weechat.org/files/doc/devel/weechat_quickstart.en.html
+ * use f5/f6 to switch between "buffers" (channels, windows, tabs, ...) in a Weechat session
+
 
 Run from source
 ---------------
