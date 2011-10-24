@@ -19,7 +19,7 @@ plugin = [
             }
         },
 
-        onOp: { toUser, fromUser ->
+        onOp: { channel, toUser, fromUser ->
             bot.broadcastMessage "${toUser} was opped by ${fromUser.nickname}"
         }
 ]

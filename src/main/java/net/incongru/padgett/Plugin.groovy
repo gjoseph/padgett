@@ -6,13 +6,13 @@ package net.incongru.padgett
 public interface Plugin {
     String name
     
-    void start(/*GregorTheBot bot*/)
+    void start(/*PadgetTheBotess bot*/)
 
-    void stop(/*GregorTheBot bot*/)
+    void stop(/*PadgetTheBotess bot*/)
 
-    void onMessage(/*GregorTheBot bot,*/ MessageDetails message)
+    void onMessage(/*PadgetTheBotess bot,*/ MessageDetails message)
 
-    void onPrivateMessage(/*GregorTheBot bot,*/ MessageDetails message)
+    void onPrivateMessage(/*PadgetTheBotess bot,*/ MessageDetails message)
 
     // all "event" methods of org.jibble.pircbot.PircBot: do we want to use this ?
     /*

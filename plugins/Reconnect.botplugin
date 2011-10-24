@@ -2,14 +2,16 @@
 // rejoin when kicked
 // reconnect when disconnected
 
-def channels = ['#padgett-test']
+def channels = cfg.main.channels
 
 plugin = [
         start: {
             channels.each { bot.joinChannel it }
         },
 
-        stop: {},
+        stop: {
+            channels.each { bot.partChannel it }
+        },
 
         onPart: { channel, user ->
             if (user.nickname == bot.name) {
@@ -21,11 +23,7 @@ plugin = [
         onKick: { channel, kicker, kickee, reason ->
             if (kickee.nickname == bot.name) {
                 bot.joinChannel(channel)
-                bot.sendMessage channel, "Hey ${channel}, I'm back ! ${reason ?: '(no reason given)'} is not a reason to hurt me."
+                bot.sendMessage channel, "Hey ${channel}, I'm back. Don't hurt me :("
             }
-        },
-
-        onQuit: {
-//            user -> userLeft(null, user)
         }
 ]

@@ -1,0 +1,11 @@
+import net.incongru.padgett.UserDetails
+
+// TODO -- use ident
+plugin = [
+        onJoin: {channel, user ->
+            if (cfg.usersToAutoOp[channel]?.contains(user)) {
+                bot.sendMessage channel, "Haaaa, ${user.nickname}, good old friend, it's good to see you."
+                bot.op(channel, user.nickname)
+            }
+        }
+]

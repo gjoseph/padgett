@@ -1,5 +1,16 @@
 plugin = [
         name : 'The excessively polite Greeter plugin',
-        onJoin: { channel,user -> if (bot.name!=user.nickname) bot.sendMessage channel, "Welcome, ${user.nickname}."},
+        onJoin: { channel,user -> bot.sendMessage channel, "Welcome to ${channel}, ${user.nickname}."},
+        // TODOnever called since the plugin is loaded after we've already joined
+        // TODO differentiate load and start methods on plugins ?
+        onSelfJoin: { channel -> bot.sendMessage channel, "Greetings, ${channel}."},
         onPart: { channel,user -> if (bot.name!=user.nickname) bot.sendMessage user.nickname, "Ciao ${user.nickname}."},
+
+        onOp: { channel, to, from -> bot.sendMessage channel, "Congratulations to our new OP, ${to.nickname}. I'm sure you will this new power wisely."},
+        onVoice: { channel, to, from-> bot.sendMessage channel, "${to.nickname} can now speak."},
+
+        onSelfOp: { channel, user -> bot.sendMessage channel, "Thank you so much, ${user.nickname}. I shall use this new power wisely."},
+        onSelfVoice: { channel, user -> bot.sendMessage channel, "Thank you so much for allowing me to voice my humble opinions, ${user.nickname}."},
+        onSelfDeOp: { channel, user -> bot.sendMessage channel, "Curse you, ${user.nickname}."},
+        onSelfDeVoice: { channel, user -> bot.sendMessage channel, "Curse you, ${user.nickname}."}
 ]

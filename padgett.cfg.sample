@@ -1,0 +1,21 @@
+import net.incongru.padgett.UserDetails
+
+main = [
+        bot: [
+                name: 'padgett'
+        ],
+        server: [
+                host: 'localhost',
+                port: 6667
+        ],
+        channels: ['#padgett-test', '#other-test']
+]
+
+// users to auto-op, per channel
+usersToAutoOp = [
+        '#padgett-test': [
+                [nickname: 'gjoseph', login: '~gjoseph', hostname: 'localhost'] as UserDetails,
+                // [nickname: 'other user...', login: '...', hostname: '...'] as UserDetails,
+        ],
+        '#other-chan': []
+]

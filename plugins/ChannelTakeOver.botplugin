@@ -1,4 +1,6 @@
 def userLeft(channel, user) {
+    println "userLeft ${channel}, ${user}"
+
     bot.sendMessage channel, "${user.nickname} left us :("
     def users = bot.getUsers(channel)
     def userCount = users.length
@@ -9,6 +11,8 @@ def userLeft(channel, user) {
         bot.joinChannel(channel)
     }
 }
+
+def channels = []
 plugin = [
         start: {
             bot.broadcastMessage "I might take over this channel, if I can."
@@ -16,9 +20,16 @@ plugin = [
 
         stop: {},
 
+        onSelfJoin: {channel -> channels += channel},
+
         onPart: { channel, user ->
             userLeft(channel, user)
         },
-        
-        onQuit: { user -> userLeft(null, user)}
+
+        onQuit: { user ->
+            println "onquit for ${user}"
+            channels.each {
+                userLeft(it, user)
+            }
+        }
 ]

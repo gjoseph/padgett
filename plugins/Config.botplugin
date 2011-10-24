@@ -3,10 +3,11 @@
 
 plugin = [
         start: {
-            bot.name = "padgett_bot"
-            bot.connect "localhost", 6667
+            bot.name = cfg.main.bot.name
+            bot.connect cfg.main.server.host, cfg.main.server.port
         },
 
-        stop: {},
-
+        stop: {
+            bot.disconnect()
+        }
 ]

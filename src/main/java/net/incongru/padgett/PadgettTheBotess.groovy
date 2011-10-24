@@ -9,13 +9,10 @@ import org.jibble.pircbot.PircBot
 //@Grab("pircbot:pircbot:1.5.0")
 public class PadgettTheBotess extends PircBot {
     final plugins = [:] as Map<File, Plugin>
-    // TODO -- channels currently holds too many values, see note below.
     final channels = [] as List<String>
+    UserDetails self;
 
     // ----- Additional methods
-    // TODO expose a "me" variable or isMe(User) method ?
-
-
     void broadcastMessage(String message) {
         channels.each { channel ->
             sendMessage channel, message
@@ -26,6 +23,26 @@ public class PadgettTheBotess extends PircBot {
         channels.each { channel ->
             sendNotice channel, notice
         }
+    }
+
+    boolean isMe(String nick) {
+        return self.nickname == nick
+    }
+
+    boolean isMe(UserDetails user) {
+        return self.equals(user)
+    }
+
+    /**
+     * Called when connecting
+     */
+    private void initSelf() {
+        self = [
+                nickname: getNick(),
+                // we prepend the ~ because that's how the login name is returned by the server, thus making further comparisons (isMe()) simpler.
+                login: '~' + getLogin(),
+                hostname: getInetAddress().getHostName()
+        ] as UserDetails
     }
 
     // ------- Plugins delegation
@@ -73,7 +90,7 @@ public class PadgettTheBotess extends PircBot {
     }
 
     @Override
-    protected void onPrivateMessage(String sender, String login, String hostname, String message) {
+    void onPrivateMessage(String sender, String login, String hostname, String message) {
         def msg = [
                 text: message,
                 user: [nickname: sender, login: login, hostname: hostname]
@@ -83,26 +100,68 @@ public class PadgettTheBotess extends PircBot {
 
     @Override
     void onOp(String channel, String sourceNick, String sourceLogin, String sourceHostname, String recipient) {
-        sendMessage channel, "Thank you so much!"
         def fromUser = [nickname: sourceNick, login: sourceLogin, hostname: sourceHostname]
-        toPlugins('onOp', recipient, fromUser)
+        def toUser = [nickname: recipient]
+        if (isMe(recipient)) {
+            toPlugins('onSelfOp', channel, fromUser)
+        } else {
+            toPlugins('onOp', channel, toUser, fromUser)
+        }
+    }
+
+    @Override
+    void onDeop(String channel, String sourceNick, String sourceLogin, String sourceHostname, String recipient) {
+        def fromUser = [nickname: sourceNick, login: sourceLogin, hostname: sourceHostname]
+        def toUser = [nickname: recipient]
+        if (isMe(recipient)) {
+            toPlugins('onSelfDeOp', channel, fromUser)
+        } else {
+            toPlugins('onDeOp', channel, toUser, fromUser)
+        }
+    }
+
+    @Override
+    void onVoice(String channel, String sourceNick, String sourceLogin, String sourceHostname, String recipient) {
+        def fromUser = [nickname: sourceNick, login: sourceLogin, hostname: sourceHostname]
+        def toUser = [nickname: recipient]
+        if (isMe(recipient)) {
+            toPlugins('onSelfVoice', channel, fromUser)
+        } else {
+            toPlugins('onVoice', channel, toUser, fromUser)
+        }
+    }
+
+    @Override
+    void onDeVoice(String channel, String sourceNick, String sourceLogin, String sourceHostname, String recipient) {
+        def fromUser = [nickname: sourceNick, login: sourceLogin, hostname: sourceHostname]
+        def toUser = [nickname: recipient]
+        if (isMe(recipient)) {
+            toPlugins('onSelfDeVoice', channel, fromUser)
+        } else {
+            toPlugins('onDeVoice', channel, toUser, fromUser)
+        }
     }
 
     @Override
     protected void onJoin(String channel, String sender, String login, String hostname) {
         def user = [nickname: sender, login: login, hostname: hostname] as UserDetails
-        toPlugins('onJoin', channel, user)
-
-        /// TODO only keep track of the channels if user=self or do this in the joinChannel method!
-        channels.add channel
+        if (isMe(user)) {
+            channels.add channel
+            toPlugins('onSelfJoin', channel)
+        } else {
+            toPlugins('onJoin', channel, user)
+        }
     }
 
     @Override
     protected void onPart(String channel, String sender, String login, String hostname) {
         def user = [nickname: sender, login: login, hostname: hostname] as UserDetails
-        toPlugins('onPart', channel, user)
-        /// TODO only keep track of the channels if user=self or do this in the joinChannel method!
-        channels.remove channel
+        if (isMe(user)) {
+            channels.remove channel
+            toPlugins('onSelfPart', channel)
+        } else {
+            toPlugins('onPart', channel, user)
+        }
     }
 
     @Override
@@ -123,11 +182,13 @@ public class PadgettTheBotess extends PircBot {
 
     @Override
     protected void onConnect() {
-
+        initSelf()
+        toPlugins('onConnect')
     }
 
     @Override
     protected void onDisconnect() {
+        toPlugins('onDisonnect')
     }
 
     // ------  Underlying methods
@@ -135,7 +196,6 @@ public class PadgettTheBotess extends PircBot {
     void log(String line) {
         super.log(line)
     }
-
 
 }
 
