@@ -44,6 +44,15 @@ PLUGINS TO WRITE:
 * "shut up" (bot will be silent until his name is said)
 * wait for user (bot will notice you when user join and/or send a message to the user)
 
+Development
+===========
+Use Unreal as IrcD:
+ * unpack
+ * ./Config
+ * ?  edit unrealircd.conf
+ * run with ./unreal start
+Use weechat (installed via ports) as client - easy enough to start multiple instances
+
 RUN FROM SOURCE AND CMDLINE:
 mvn dependency:build-classpath -Dmdep.outputFile=mvncp.out && java -cp `cat mvncp.out`:target/classes/ net.incongru.padgett.Main
 
