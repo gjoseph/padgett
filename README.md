@@ -11,13 +11,13 @@ In medieval times, pages were male servants to lords, but the modern use of the 
 
 Also, whatever. "Padgett" sounds like "Gadget", so why not.
 
-Done, to document:
-==================
+Done, to document
+=================
 * plugins are loaded in subfolders,
 * name pattern for plugins: *.botplugin - so (hopefully) classes and other utils can stay there - TODO: verify.
 
-TODO:
-=====
+TODO
+====
 * verify or enforce plugin order (alphabetical?)
 * verify plugins can utilize other classes
   ** Can plugins use Grapes ?
@@ -40,8 +40,8 @@ TODO:
 
 * save plugin states ?
 
-PLUGINS TO WRITE:
------------------
+Plugins to write
+----------------
 * config, connect, join channels
 * log
 * meetbot (with +voice)
@@ -59,6 +59,6 @@ Use Unreal as IrcD:
 Use weechat (installed via ports) as client - easy enough to start multiple instances
 
 Run from source
-===============
+---------------
 mvn dependency:build-classpath -Dmdep.outputFile=mvncp.out && java -cp `cat mvncp.out`:target/classes/ net.incongru.padgett.Main
 
