@@ -24,10 +24,8 @@ public class Main {
         timer.schedule(watcher, 5000, 10000)
 
         // this implicitly keeps the app running - should we manage threading ourselves ?
-//        ircbot.name = "padgett_bot"
         ircbot.setVerbose true // if true, verbose messages output to console.
-        //ircbot.connect "localhost", 6667
-        // ircbot.joinChannel "#greg-test"
+        // see Config.botplugin for basic configuration
     }
 
     void onPluginChange(File file, FileChange change) {

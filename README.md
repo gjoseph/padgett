@@ -51,14 +51,20 @@ Plugins to write
 
 Development
 ===========
-Use Unreal as IrcD:
- * unpack
- * ./Config
- * ?  edit unrealircd.conf
- * run with ./unreal start
-Use weechat (installed via ports) as client - easy enough to start multiple instances
+Use ngircd as server:
+ * sudo port install ngircd
+ * sudo cp /opt/local/etc/ngircd.conf.sample /opt/local/etc/ngircd.conf
+ * ngircd -n
+
+Use weechat as client - easy enough to start multiple instances
+ * sudo port install weechat
+ * vi ~/.weechat/
+ * weechat-curse
+ * cp -R ~/.weechat/ ~/.weechat2/
+ * weechat-curses -d ~/.weechat2/
+ * # rince and repeat for more clients/configs
 
 Run from source
 ---------------
-mvn dependency:build-classpath -Dmdep.outputFile=mvncp.out && java -cp `cat mvncp.out`:target/classes/ net.incongru.padgett.Main
+mvn clean compile && mvn dependency:build-classpath -Dmdep.outputFile=mvncp.out && java -cp `cat mvncp.out`:target/classes/ net.incongru.padgett.Main
 

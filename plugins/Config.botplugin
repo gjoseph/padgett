@@ -4,7 +4,6 @@
 plugin = [
         start: {
             bot.name = "padgett_bot"
-            // bot.connect "irc.freenode.net"
             bot.connect "localhost", 6667
         },
 
