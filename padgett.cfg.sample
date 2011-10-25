@@ -19,3 +19,9 @@ usersToAutoOp = [
         ],
         '#other-chan': []
 ]
+
+jira = [
+        urlPrefix: 'http://jira.acme.org',
+        username: 'padgett',
+        password: 'lol'
+]

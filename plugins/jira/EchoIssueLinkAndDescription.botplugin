@@ -2,16 +2,19 @@ import groovy.net.xmlrpc.XMLRPCServerProxy
 //import groovyx.net.http.RESTClient
 //import static groovyx.net.http.ContentType.URLENC
 
-def jiraUrlPrefix = 'http://jira.magnolia-cms.com'
-def jira = new Jira(jiraUrlPrefix)
 plugin = [
         onMessage: { msg ->
             issueKeyMatcher = msg.text =~ /[A-Z]+-[0-9]+/
             if (issueKeyMatcher) {
-                def (title, url) = jira.getIssue(issueKeyMatcher[0])
-                if (title) {
-                    println "Found issue: ${title}"
-                    bot.sendMessage msg.channel, "> \"${title}\" - ${url}"
+                def jira = new Jira(cfg.jira)
+                try {
+                    def (title, url) = jira.getIssue(issueKeyMatcher[0])
+                    if (title) {
+                        println "Found issue: ${title}"
+                        bot.sendMessage msg.channel, "> \"${title}\" - ${url}"
+                    }
+                } finally {
+                    jira.logout()
                 }
             }
         }
@@ -23,27 +26,31 @@ plugin = [
 @Grab(value = 'org.codehaus.groovy:groovy-xmlrpc:0.7', initClass = false)
 @Grab(value = 'jivesoftware:smack:3.0.4', initClass = false)
 class Jira {
+    private final def jiraConfig;
     private final Object defaultService;
-    private final String jiraUrlPrefix;
     private final String token;
 
-    def Jira(String jiraUrlPrefix) {
-        this.jiraUrlPrefix = jiraUrlPrefix
-        def serverProxy = new XMLRPCServerProxy("${jiraUrlPrefix}/rpc/xmlrpc")
+    def Jira(def jiraConfig) {
+        this.jiraConfig = jiraConfig
+        def serverProxy = new XMLRPCServerProxy("${jiraConfig.urlPrefix}/rpc/xmlrpc")
         defaultService = serverProxy.jira1;
-        token = defaultService.login('gjoseph', 'm4st0d0n')
+        token = defaultService.login(jiraConfig.username, jiraConfig.password)
     }
 
     def getIssue(issueKey) {
-        println "Looking up ${issueKey} on ${jiraUrlPrefix}"
+        println "Looking up ${issueKey} on ${jiraConfig.urlPrefix}"
         try {
             def issue = defaultService.getIssue(token, issueKey)
             // if we ever need custom fields: issue.getClass().mixin(IssueMixin)
-            return [issue.summary, "${jiraUrlPrefix}/browse/${issueKey}"]
+            return [issue.summary, "${jiraConfig.urlPrefix}/browse/${issueKey}"]
         } catch (Throwable t) {
             println "ERROR: Could not load or find ${issueKey}: ${t}"
         }
         return []
+    }
+
+    def logout() {
+        defaultService.logout(token)
     }
 
     static class IssueMixin {
