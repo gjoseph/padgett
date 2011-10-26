@@ -4,7 +4,7 @@ Every bit of functionality in Padgett is written as a plugin, and plugins can be
 Padgett - the name
 ==================
 
-(Middle English) little page; (Middle English) server, helper
+> (Middle English) little page; (Middle English) server, helper
 [ 2 syll. pad-get(t), pa-dge-tt ] Padgett is a form of the English Paget. Padgett is a form of the English Paige,
 which is itself from the ordinary English word page ('servant, helper'). This word is in turn derived via Old French and Italian from the Greek 'paidion'.
 In medieval times, pages were male servants to lords, but the modern use of the name is almost exclusively for girls, for reasons that are unclear.
@@ -78,5 +78,6 @@ Use weechat as client - easy enough to start multiple instances
 
 Run from source
 ---------------
+~~~
 mvn clean compile && mvn dependency:build-classpath -Dmdep.outputFile=mvncp.out && java -cp `cat mvncp.out`:target/classes/ net.incongru.padgett.Main
-
+~~~
