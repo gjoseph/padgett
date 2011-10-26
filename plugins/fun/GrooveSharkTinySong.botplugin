@@ -1,0 +1,26 @@
+/**
+  * See http://developers.grooveshark.com/
+  * and http://tinysong.com/api
+  */
+
+def apiKey = cfg.grooveShark.tinySongAPIKey
+
+plugin = [
+        onMessage: { m ->
+            // TODO this is the Adium %_music pattern, perhaps we could support others as well ?
+            def pattern = ~/\*is listening to (.*) by (.*)\*$/
+            def matcher = (m.text =~ pattern)
+            if (matcher) {
+                def song = matcher.group(1)
+                def artist = matcher.group(2)
+                def query = URLEncoder.encode("${artist} ${song}")
+                def queryUrl = "http://tinysong.com/a/${query}?format=text&key=${apiKey}".toURL()
+                def songUrl = queryUrl.getText()
+                if (songUrl.startsWith('http')) { // 'NSF;' is returned when no result is found
+                    bot.sendMessage m.channel, "> and you too can listen to it at ${songUrl}"
+                } else {
+                    println "> No results for ${queryUrl}"
+                }
+            }
+        }
+]

@@ -25,3 +25,7 @@ jira = [
         username: 'padgett',
         password: 'lol'
 ]
+
+grooveShark = [
+    tinySongAPIKey: 'Get one at http://tinysong.com/api'
+]
