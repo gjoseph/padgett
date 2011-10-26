@@ -40,6 +40,10 @@ TODO
 
 * save plugin states ?
 
+* ability to schedule jobs (i.e plugins shouldn't block the plugin loop when looking up a url or jira issue for ex)
+
+* add help/description in plugins ?
+
 Plugins to write
 ----------------
 
