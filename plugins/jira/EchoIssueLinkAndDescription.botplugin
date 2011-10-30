@@ -4,11 +4,11 @@ import groovy.net.xmlrpc.XMLRPCServerProxy
 
 plugin = [
         onMessage: { msg ->
-            issueKeyMatcher = msg.text =~ /[A-Z]+-[0-9]+/
+            issueKeyMatcher = msg.text =~ /(?:[^\/A-Z]|^)([A-Z]+-[0-9]+)/
             if (issueKeyMatcher) {
                 def jira = new Jira(cfg.jira)
                 try {
-                    def (title, url) = jira.getIssue(issueKeyMatcher[0])
+                    def (title, url) = jira.getIssue(issueKeyMatcher.group(1))
                     if (title) {
                         println "Found issue: ${title}"
                         bot.sendMessage msg.channel, "> \"${title}\" - ${url}"
