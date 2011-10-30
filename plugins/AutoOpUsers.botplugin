@@ -1,5 +1,3 @@
-import net.incongru.padgett.UserDetails
-
 // TODO -- use ident
 plugin = [
         onJoin: {channel, user ->
