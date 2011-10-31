@@ -3,7 +3,9 @@
 
 plugin = [
         start: {
+            bot.setVerbose cfg.main.bot.verbose
             bot.name = cfg.main.bot.name
+            // TODO userid and other identifiers too
             bot.connect cfg.main.server.host, cfg.main.server.port
         },
 

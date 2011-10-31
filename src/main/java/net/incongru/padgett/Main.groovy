@@ -29,8 +29,7 @@ public class Main {
         timer.schedule(watcher, 5000, 10000)
 
         // this implicitly keeps the app running - should we manage threading ourselves ?
-        bot.setVerbose true // if true, verbose messages output to console.
-        // see Config.botplugin for basic configuration
+        // anything else is done by plugins
     }
 
     void onPluginChange(File file, FileChange change) {

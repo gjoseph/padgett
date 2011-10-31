@@ -2,7 +2,9 @@ import net.incongru.padgett.UserDetails
 
 main = [
         bot: [
-                name: 'padgett'
+                name: 'padgett',
+                // if true, verbose messages output to console:
+                verbose: true
         ],
         server: [
                 host: 'localhost',
