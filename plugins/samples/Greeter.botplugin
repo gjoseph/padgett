@@ -4,7 +4,7 @@ plugin = [
         // TODOnever called since the plugin is loaded after we've already joined
         // TODO differentiate load and start methods on plugins ?
         onSelfJoin: { channel -> bot.sendMessage channel, "Greetings, ${channel}."},
-        onPart: { channel,user -> if (bot.name!=user.nickname) bot.sendMessage user.nickname, "Ciao ${user.nickname}."},
+        onPart: { channel,user -> if (bot.name!=user.nickname) bot.sendMessage channel, "Ciao ${user.nickname}."},
 
         onOp: { channel, to, from -> bot.sendMessage channel, "Congratulations to our new OP, ${to.nickname}. I'm sure you will this new power wisely."},
         onVoice: { channel, to, from-> bot.sendMessage channel, "${to.nickname} can now speak."},
