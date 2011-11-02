@@ -1,0 +1,15 @@
+plugin = [
+        onPrivateMessage: { m ->
+            sayMatcher = (m.text =~ /say (#\S+?) (.+)/)
+            if (sayMatcher) {
+                if (true /*TODO isOp*/) {
+                    def channel = sayMatcher.group(1)
+                    def transmittedMessage = sayMatcher.group(2)
+                    log.info("Transmitting message from ${m.user.nickname} to ${channel}: ${transmittedMessage}")
+                    bot.sendMessage channel, transmittedMessage
+                }
+            } else if (m.text =~ /say.*/) {
+                bot.sendMessage m.user.nickname, "Please provide a #channel before the text of your message"
+            }
+        }
+]
