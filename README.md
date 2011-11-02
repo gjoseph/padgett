@@ -11,6 +11,8 @@ In medieval times, pages were male servants to lords, but the modern use of the 
 
 Also, whatever. "Padgett" sounds like "Gadget", so why not.
 
+
+
 Done, to document
 =================
 * plugins are loaded in subfolders,
@@ -22,7 +24,6 @@ TODO
 * verify plugins can utilize other classes
   ** Can plugins use Grapes ?
 * daemonize
-* build, single jar
 * instructions, setup, install
 * don't callback when bot.name=user.nickname?
 
@@ -35,6 +36,8 @@ TODO
   Should plugins "talk" to each other ?
   (for example they could share one Jira::proxy instance)
 
+* Observe configuration
+
 * plugin name ?
 * plugin dependencies ? (could be useful, or even needed, for proper reload/restart)
 
@@ -44,40 +47,18 @@ TODO
 
 * add help/description in plugins ?
 
+* Check Jenkins' bots:
+  https://wiki.jenkins-ci.org/display/JENKINS/IRC+Bot
+  https://github.com/jenkinsci/ircbot-plugin
+  https://github.com/jenkinsci/backend-ircbot
+
 Plugins to write
 ----------------
 
-* config, connect, join channels
 * log
 * meetbot (with +voice)
 * jira info
 * "shut up" (bot will be silent until his name is said)
+  -- is this still relevant ? every other plugin would need to "check" if they can talk ??
+  -- perhaps make it a meta plugin that is able to enable/disable other plugins ?
 * wait for user (bot will notice you when user join and/or send a message to the user)
-
-Development
-===========
-
-Use ngircd as server:
-
- * sudo port install ngircd
- * sudo cp /opt/local/etc/ngircd.conf.sample /opt/local/etc/ngircd.conf
- * ngircd -n
-
-Use weechat as client - easy enough to start multiple instances
-
- * sudo port install weechat
- * vi ~/.weechat/
- * weechat-curse
- * cp -R ~/.weechat/ ~/.weechat2/
- * weechat-curses -d ~/.weechat2/
- * # rince and repeat for more clients/configs
- * http://www.weechat.org/
- * http://www.weechat.org/files/doc/devel/weechat_quickstart.en.html
- * use f5/f6 to switch between "buffers" (channels, windows, tabs, ...) in a Weechat session
-
-
-Run from source
----------------
-~~~
-mvn clean compile && mvn dependency:build-classpath -Dmdep.outputFile=mvncp.out && java -cp `cat mvncp.out`:target/classes/ net.incongru.padgett.Main
-~~~
