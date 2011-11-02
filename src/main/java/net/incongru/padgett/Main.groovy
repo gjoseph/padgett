@@ -25,7 +25,7 @@ public class Main {
     }
 
     void start() {
-        def watcher = new DirectoryWatcher('plugins', this)
+        def watcher = new DirectoryWatcher(cfg.pluginsDirectory, this)
 
         Timer timer = new Timer()
         timer.schedule(watcher, 5000, 10000)
@@ -73,8 +73,8 @@ public class Main {
 
     def loadPlugin(File file) {
         try {
+            final Logger pluginLog = LoggerFactory.getLogger((file.path =~ "${cfg.pluginsDirectory}/(.*)\\.botplugin")[0][1])
             final Class groovyClass = loadClass(file)
-            final Logger pluginLog = LoggerFactory.getLogger(groovyClass)
             //def groovyObj = groovyClass.newInstance(bot:bot) as GroovyObject
             if (Script.class.isAssignableFrom(groovyClass)) {
                 log.info "> Loading ${file.name} as a Script"
