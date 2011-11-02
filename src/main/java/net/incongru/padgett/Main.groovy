@@ -2,10 +2,12 @@ package net.incongru.padgett
 
 import net.incongru.padgett.pluginloader.DirectoryWatcher
 import net.incongru.padgett.pluginloader.FileChange
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import static net.incongru.padgett.pluginloader.FileChange.*
 
 public class Main {
-    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Main.class);
+    private static final Logger log = LoggerFactory.getLogger(Main.class)
 
     final PadgettTheBotess bot
     final def cfg
@@ -71,12 +73,13 @@ public class Main {
 
     def loadPlugin(File file) {
         try {
-            Class groovyClass = loadClass(file);
+            final Class groovyClass = loadClass(file)
+            final Logger pluginLog = LoggerFactory.getLogger(groovyClass)
             //def groovyObj = groovyClass.newInstance(bot:bot) as GroovyObject
             if (Script.class.isAssignableFrom(groovyClass)) {
                 log.info "> Loading ${file.name} as a Script"
                 def script = groovyClass.newInstance() as Script
-                def binding = [bot: bot, cfg: cfg] as Binding
+                def binding = [bot: bot, cfg: cfg, log: pluginLog] as Binding
                 script.setBinding(binding)
                 script.run()
                 return binding.getVariable('plugin')// as Plugin
@@ -84,7 +87,7 @@ public class Main {
                 // since we want plugins to be able to only listen to events they care about, that interface is probably unnecessary anyway
             } else {
                 log.info "> Loading ${file.name} as a Plugin"
-                return groovyClass.newInstance(bot: bot, cfg: cfg) as Plugin
+                return groovyClass.newInstance(bot: bot, cfg: cfg, log: pluginLog) as Plugin
             }
             // return (Plugin) groovyClass.newInstance()
         } catch (Exception e) {
