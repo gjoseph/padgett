@@ -25,7 +25,9 @@ TODO
   ** Can plugins use Grapes ?
 * daemonize
 * instructions, setup, install
-* don't callback when bot.name=user.nickname?
+
+* let plugins react on the bot's own messages (i.e sent by other plugins)... this might get verbose but... well...let's try ?
+  * use a different callback so plugins can react differently
 
 * configuration:
   Should there be one "config" object ?
