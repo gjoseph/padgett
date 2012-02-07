@@ -1,5 +1,6 @@
 import net.incongru.padgett.UserDetails
 
+pluginsDirectory = 'plugins'
 main = [
         bot: [
                 name: 'padgett',
@@ -30,4 +31,8 @@ jira = [
 
 grooveShark = [
     tinySongAPIKey: 'Get one at http://tinysong.com/api'
+]
+
+echo = [
+    prefix: 'you said'
 ]

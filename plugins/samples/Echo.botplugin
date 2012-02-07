@@ -1,3 +1,4 @@
+def prefix = cfg.echo.prefix
 plugin = [
         start: {
             // bot.broadcastMessage "Hello from ${this}"
@@ -5,10 +6,10 @@ plugin = [
 
 
         stop: {},
-        
+
         onMessage: { msg ->
             if (msg.text =~ bot.name) {
-                // bot.sendNotice msg.channel, "You said: ${msg.text}"
+                bot.sendNotice msg.channel, "${prefix}: ${msg.text}"
             }
         },
 
