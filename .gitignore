@@ -3,3 +3,5 @@ padgett.cfg
 *.iws
 *.iml
 target
+.gradle
+build
