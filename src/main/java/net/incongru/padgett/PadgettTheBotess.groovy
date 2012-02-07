@@ -45,9 +45,22 @@ public class PadgettTheBotess extends PircBot {
         ] as UserDetails
     }
 
+    // ------- Plugins handling
+    void restartAllPlugins() {
+
+        // TODO --- really need to RELOAD if we want to reinit variables that are init'd outside callback closures...
+
+        plugins.reverseEach { f, p ->
+            delegateTo(p, 'stop')
+        }
+        plugins.each { f, p ->
+            delegateTo(p, 'start')
+        }
+    }
+
     // ------- Plugins delegation
     void toPlugins(String command, final Object... args) {
-        plugins.values().each { plugin ->
+        plugins.each { f, plugin ->
             def closure = cmd(plugin, command)
             if (closure) {
                 // works :
@@ -59,7 +72,7 @@ public class PadgettTheBotess extends PircBot {
     }
 
     void toPlugins(Closure c) {
-        plugins.values().each { c.call(it) }
+        plugins.each { f, p -> c.call(p) }
     }
 
     void delegateTo(plugin, String command) {

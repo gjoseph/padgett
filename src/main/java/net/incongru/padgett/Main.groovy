@@ -11,24 +11,27 @@ public class Main {
 
     final PadgettTheBotess bot
     final def cfg
+    final def timer
 
     public static void main(String[] args) {
-        new Main().start()
+        new Main('padgett.cfg' as File).start()
     }
 
-    def Main() {
+    def Main(File configFile) {
         bot = new PadgettTheBotess()
         // TODO - watch configuration just as well - reload all plugins when changed
         // TODO - allow passing a different cfg file
         // TODO - wrap config in an object that validates configuration and logs hints ('plugin X needs Y to be configured')
-        cfg = loadConfiguration('padgett.cfg' as File)
+        timer = new Timer()
+
+        def configWatcher = new ConfigWatcher(bot, configFile)
+        cfg = configWatcher.getConfigProxy()
+        timer.schedule(configWatcher, 5000, 10000)
     }
 
     void start() {
-        def watcher = new DirectoryWatcher(cfg.pluginsDirectory, this)
-
-        Timer timer = new Timer()
-        timer.schedule(watcher, 5000, 10000)
+        def pluginsWatcher = new DirectoryWatcher(cfg.pluginsDirectory, this)
+        timer.schedule(pluginsWatcher, 5000, 10000)
 
         // this implicitly keeps the app running - should we manage threading ourselves ?
         // anything else is done by plugins
@@ -59,22 +62,10 @@ public class Main {
         }
     }
 
-    def loadConfiguration(File file) {
-        try {
-            Class cfgClass = loadClass(file)
-            def script = cfgClass.newInstance() as Script
-            script.run()
-            log.info "Loaded configuration from ${file.name}"
-            return script.binding
-        } catch (Exception e) {
-            throw new IllegalStateException("Could not load configuration from ${file.absolutePath}: ${e.message}", e)
-        }
-    }
-
     def loadPlugin(File file) {
         try {
             final Logger pluginLog = LoggerFactory.getLogger((file.path =~ "${cfg.pluginsDirectory}/(.*)\\.botplugin")[0][1])
-            final Class groovyClass = loadClass(file)
+            final Class groovyClass = GroovyUtil.loadClass(file)
             //def groovyObj = groovyClass.newInstance(bot:bot) as GroovyObject
             if (Script.class.isAssignableFrom(groovyClass)) {
                 log.info "> Loading ${file.name} as a Script"
@@ -97,10 +88,4 @@ public class Main {
         }
     }
 
-    def loadClass(File file) {
-        ClassLoader parent = getClass().getClassLoader();
-        GroovyClassLoader loader = new GroovyClassLoader(parent);
-        Class groovyClass = loader.parseClass(file)
-        return groovyClass
-    }
 }
