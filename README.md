@@ -12,22 +12,23 @@ In medieval times, pages were male servants to lords, but the modern use of the 
 Also, whatever. "Padgett" sounds like "Gadget", so why not.
 
 
-
 Done, to document
 =================
 * plugins are loaded in subfolders,
 * name pattern for plugins: *.botplugin - so (hopefully) classes and other utils can stay there - TODO: verify.
+* different callbacks is action taken by self
 
 TODO
 ====
 * verify or enforce plugin order (alphabetical?)
 * verify plugins can utilize other classes
   ** Can plugins use Grapes ?
-* daemonize
+* daemonize: see http://yajsw.sourceforge.net ?
 * instructions, setup, install
 
 * let plugins react on the bot's own messages (i.e sent by other plugins)... this might get verbose but... well...let's try ?
-  * use a different callback so plugins can react differently
+  * use a different callback so plugins can react differently->done, see isMe() and its usage
+  * verify we can't send the bot in a crazy loop (see Echo plugin)
 
 * configuration:
   Should there be one "config" object ?
@@ -64,3 +65,19 @@ Plugins to write
   -- is this still relevant ? every other plugin would need to "check" if they can talk ??
   -- perhaps make it a meta plugin that is able to enable/disable other plugins ?
 * wait for user (bot will notice you when user join and/or send a message to the user)
+
+# DSL to allow messages like
+  @padgett create room with @greg @fred and @bob
+  @padgett create private room for "foo bar" with ...
+  @padgett create temp room with ...
+  @padgett ...with log? or just auto-log all chans
+
+* auto-invite - monitor for people login in/out and invite them to channels where they were previously invited
+
+* log, auto-op etc.. includes/excludes ? By default include all, exclude configured chans ?
+
+Build & Run
+===========
+Build with `gradle build`
+Run with `java -jar build/libs/padgett-ircbot.jar`
+See the wiki for help on installing clients, building and running from sources, etc.
