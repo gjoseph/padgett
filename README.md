@@ -49,11 +49,17 @@ TODO
 * ability to schedule jobs (i.e plugins shouldn't block the plugin loop when looking up a url or jira issue for ex)
 
 * add help/description in plugins ?
+* add an help plugin, lists available plugin and their "help" string ?
 
 * Check Jenkins' bots:
   https://wiki.jenkins-ci.org/display/JENKINS/IRC+Bot
   https://github.com/jenkinsci/ircbot-plugin
   https://github.com/jenkinsci/backend-ircbot
+
+* Checkout Netty - http://www.jboss.org/netty - is there an irc implementation ? other protocols ? 
+  Might help with:
+    * Abstracting IRC away if we wanted to support other protocols
+    * Have a better or more efficient api than pircbot ?
 
 Plugins to write
 ----------------
