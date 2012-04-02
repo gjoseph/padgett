@@ -56,7 +56,7 @@ TODO
   https://github.com/jenkinsci/ircbot-plugin
   https://github.com/jenkinsci/backend-ircbot
 
-* Checkout Netty - http://www.jboss.org/netty - is there an irc implementation ? other protocols ? 
+* Checkout Netty - http://netty.io/ - http://www.jboss.org/netty - is there an irc implementation ? other protocols ? 
   Might help with:
     * Abstracting IRC away if we wanted to support other protocols
     * Have a better or more efficient api than pircbot ?
